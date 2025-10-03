@@ -3,13 +3,12 @@
   position: absolute;
   top: 50%;
   left: calc(10vw + 12vmin);
-  transform: translateY(-10%);
+  transform: translateY(-50%);
   color: #e6d58e;
   font-family: 'Montserrat', 'Arial Black', Arial, sans-serif;
-  font-weight: 5px;
-  font-size: 50%;
+  font-weight: 900px;
   text-transform: uppercase;
-  letter-spacing: -4px;
+  letter-spacing: -2px;
   z-index: 5;
   white-space: normal;
   opacity: 0;
@@ -18,7 +17,7 @@
   /* Removed font-size, background, padding, border, shadow, and extra spacing */
 }
 HTML, BODY {
-  height: 5%;
+  height: 100%;
   overflow: hidden;
 }
 

@@ -1,0 +1,611 @@
+/* Estilos Generales */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #fdf6f6; /* Un tono rosa muy pálido */
+    color: #333;
+    overflow-x: hidden;
+}
+
+/* --- Página de Inicio (Hero) --- */
+.hero {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../img/fondoindex.jpg');
+}
+
+.hero-content h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 8vw;
+    color: rgb(151, 214, 230);
+    margin: 0;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+}
+
+.polaroid-link {
+    text-decoration: none;
+}
+
+.polaroid {
+    background-color: rgb(255, 255, 255);
+    padding: 15px 10px 50px 15px;
+    border-radius: 2px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    transform: rotate(-3deg);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 2rem;
+    display: inline-block;
+}
+
+.polaroid:hover {
+    transform: rotate(0deg) scale(1.05);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+.polaroid img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border: 1px solid #eee;
+}
+
+.polaroid p {
+    font-family: 'Playfair Display', serif;
+    color: #555;
+    margin-top: 15px;
+    font-size: 1.5rem;
+}
+
+/* --- Índice --- */
+.index-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: 2rem;
+}
+
+.index-container h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    color: #d17b88;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #777;
+    margin-top: -1.5rem;
+}
+
+.index-nav {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.nav-item {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    color: #333;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-item:hover {
+    background-color: #e0bde9;
+    color: rgb(203, 155, 212);
+}
+
+.nav-item.coming-soon {
+    color: #aaa;
+    cursor: not-allowed;
+}
+.nav-item.coming-soon:hover {
+    background-color: transparent;
+    color: #aaa;
+}
+
+/* --- Momentos Inolvidables --- */
+#moments-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #1a1a1a;
+}
+
+.random-photo {
+    position: absolute;
+    width: 200px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+}
+
+/* --- Banda Sonora --- */
+.playlist-container {
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../img/fondomusica.jpg');
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.playlist-container h2 {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: #d17b88;
+}
+
+.song-item {
+    display: flex;
+    align-items: center;
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+}
+
+.song-item:hover {
+    background-color: #fdf6f6;
+}
+
+.album-art img {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    margin-right: 1.5rem;
+    object-fit: cover;
+}
+
+.song-details {
+    flex-grow: 1;
+}
+
+.song-details h3 {
+    margin: 0;
+    font-weight: 600;
+}
+
+.song-details p {
+    margin: 0;
+    color: #777;
+}
+
+.spotify-link {
+    background-color: #1DB954;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.spotify-link:hover {
+    background-color: #1ed760;
+}
+
+.spotify-link i {
+    margin-right: 8px;
+}
+
+/* --- Citas de Ensueño --- */
+.checklist-container {
+    max-width: 700px;
+    margin: 3rem auto;
+    padding: 2rem;
+    
+}
+
+.checklist-container h2 {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: #d17b88;
+}
+
+.list-section {
+    margin-top: 2.5rem;
+}
+
+.list-section h3 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 1.5rem;
+    border-bottom: 2px solid #ee9ca7;
+    padding-bottom: 0.5rem;
+    
+}
+
+.list-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.list-section li {
+    font-size: 1.1rem;
+    padding: 0.8rem 0;
+    display: flex;
+    align-items: center;
+}
+
+.list-section input[type="checkbox"] {
+    display: none;
+}
+
+.list-section label {
+    position: relative;
+    padding-left: 35px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.list-section label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    transition: all 0.3s;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../img/fondomusica.jpg');
+
+}
+
+.list-section input[type="checkbox"]:checked + label {
+    color: #aaa;
+    text-decoration: line-through;
+}
+
+.list-section input[type="checkbox"]:checked + label:before {
+    background-color: #ee9ca7;
+    border-color: #ee9ca7;
+}
+
+.list-section input[type="checkbox"]:checked + label:after {
+    content: '✔';
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    font-size: 14px;
+}
+
+/* --- Enlace para Volver --- */
+.back-link {
+    display: inline-block;
+    margin-top: 2rem;
+    color: #d17b88;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+.back-link:hover {
+    color: #333;
+}
+
+.back-link-fixed {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.8);
+    padding: 10px 20px;
+    border-radius: 50px;
+    color: #333;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+/* --- Estilos Mejorados del Índice --- */
+
+/* Fondo de la página del índice */
+.index-page-body {
+    /* **INSTRUCCIÓN:** Puedes cambiar esta URL por una foto tuya. 
+       Te recomiendo usar una imagen horizontal de buena calidad. */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../img/fondoindice.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Contenedor principal del contenido */
+.index-container-improved {
+    text-align: center;
+    padding: 3rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* Para Safari */
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    max-width: 900px;
+}
+
+/* Título y subtítulo */
+.index-title-improved {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    color: white;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+}
+
+.subtitle-improved {
+    font-size: 1.2rem;
+    color: #e0e0e0;
+    margin-top: 0;
+    margin-bottom: 3rem;
+    font-weight: 300;
+}
+
+/* Contenedor de las tarjetas */
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+}
+
+/* Estilo de cada tarjeta */
+.nav-card {
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    padding: 2rem 1rem;
+    text-decoration: none;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 400;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    transition: all 0.3s ease;
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Efecto al pasar el mouse */
+.nav-card:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* Iconos dentro de las tarjetas */
+.nav-card i {
+    font-size: 2.5rem;
+}
+
+/* Tarjetas deshabilitadas (Próximamente) */
+.nav-card.disabled {
+    background-color: rgba(0, 0, 0, 0.2);
+    color: #aaa;
+    cursor: not-allowed;
+}
+
+.nav-card.disabled:hover {
+    transform: none;
+    box-shadow: none;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Enlace para volver */
+.back-link-improved {
+    display: inline-block;
+    margin-top: 3rem;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    background-color: rgba(0,0,0,0.2);
+    padding: 10px 25px;
+    border-radius: 50px;
+    transition: background-color 0.3s;
+}
+.back-link-improved:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Animación de entrada para las tarjetas */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* --- Estilos Mejorados de Banda Sonora --- */
+
+#playlist-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.7s ease-in-out;
+    z-index: -1;
+}
+
+#playlist-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+.playlist-container-improved {
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: rgba(20, 20, 20, 0.7);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    color: white;
+}
+
+.playlist-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.playlist-cover-img {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+
+.playlist-info h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin: 0;
+}
+
+.playlist-info p {
+    font-size: 1rem;
+    color: #ccc;
+    margin-top: 0.5rem;
+}
+
+.song-list-improved {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.song-item-improved {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    cursor: default;
+}
+
+.song-item-improved:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.song-number {
+    font-size: 1rem;
+    color: #ccc;
+    width: 30px;
+    text-align: center;
+}
+
+.song-album-art {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin: 0 1rem;
+}
+
+.song-details-improved {
+    flex-grow: 1;
+}
+
+.song-details-improved h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.song-details-improved p {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin: 0;
+}
+
+.spotify-link-improved {
+    color: white;
+    font-size: 1.5rem;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 50%;
+    transition: color 0.3s;
+}
+
+.spotify-link-improved:hover {
+    color: #1DB954; /* Verde Spotify */
+}
+
+/* === ESTILO PARA EL BOTÓN DE VOLVER (ESTRELLA) === */
+
+.back-link {
+    position: fixed; /* Lo deja fijo en la pantalla */
+    bottom: 30px;    /* 30px desde abajo */
+    right: 30px;     /* 30px desde la derecha */
+    z-index: 1000;   /* Se asegura que esté por encima de otros elementos */
+    text-decoration: none;
+    transition: transform 0.3s ease; /* Transición suave para el tamaño */
+}
+
+/* Color inicial de la estrella: NEGRA */
+.back-link .fa-star {
+    color: black;
+    transition: color 0.3s ease; /* Transición suave para el cambio de color */
+}
+
+/* El icono de la flecha es blanco por defecto (fa-inverse) */
+/* Lo queremos negro, así que lo sobreescribimos */
+.back-link .fa-arrow-left {
+    color: rgb(129, 19, 255); /* Flecha siempre negra */
+    transition: color 0.3s ease; /* Aunque no cambie, es buena práctica */
+}
+
+
+/* --- Efectos al pasar el cursor (hover) --- */
+
+.back-link:hover {
+    transform: scale(1.1); /* Agranda un poco el botón al pasar el cursor */
+}
+
+.back-link:hover .fa-star {
+    color: #e0b0ff; /* Morado claro al pasar el cursor */
+}
+
+/* La flecha permanece negra al hacer hover, no necesita un cambio explícito en :hover si ya es negra */
+.back-link:hover .fa-arrow-left {
+    color: black; /* Aseguramos que la flecha siga siendo negra */
+}

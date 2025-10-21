@@ -1,0 +1,126 @@
+body {
+    background-color: #4a3f35; /* Un fondo oscuro y cálido */
+    background-image: url('https://www.transparenttextures.com/patterns/old-wall.png');
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Poppins', sans-serif;
+}
+
+.album-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.book {
+    width: 80vw;
+    max-width: 800px;
+    height: 70vh;
+    background-color: #fdf5e6; /* Color de papel viejo */
+    border: 15px solid #6b5a4b; /* Borde de madera oscura */
+    border-radius: 10px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.book-cover {
+    cursor: pointer;
+    text-align: center;
+    color: #6b5a4b;
+}
+
+.book-cover h1 {
+    font-family: 'Parisienne', cursive; /* Tipografía elegante */
+    font-size: 4rem;
+    margin: 0;
+}
+
+.book-cover p {
+    font-style: italic;
+    font-size: 1.2rem;
+}
+
+.book-page {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    width: 100%;
+    height: 100%;
+}
+.book-page.visible {
+    opacity: 1;
+}
+
+.page-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    height: calc(100% - 4rem);
+}
+
+.vintage-frame {
+    border: 10px solid transparent;
+    border-image: url('https://i.pinimg.com/originals/a8/33/21/a8332159495144b6c310f845a278d655.png') 50 stretch;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    margin-bottom: 1.5rem;
+}
+
+.vintage-frame img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: 30vh;
+    object-fit: contain;
+}
+
+#page-text {
+    font-family: 'Parisienne', cursive; /* Tipografía elegante para la historia */
+    font-size: 2.5rem;
+    color: #5d4a3c;
+    text-align: center;
+    max-width: 90%;
+}
+
+.navigation-controls {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.navigation-controls button {
+    background-color: #6b5a4b;
+    color: #fdf5e6;
+    border: 2px solid #5d4a3c;
+    border-radius: 5px;
+    padding: 10px 25px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.navigation-controls button:hover {
+    background-color: #fdf5e6;
+    color: #6b5a4b;
+}
+
+.back-link-album {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    color: #fdf5e6;
+    text-decoration: none;
+    background-color: rgba(0,0,0,0.3);
+    padding: 10px 15px;
+    border-radius: 20px;
+}

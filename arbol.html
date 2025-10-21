@@ -3,266 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuestra Historia - Un Álbum</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Poppins:wght@300&display=swap" rel="stylesheet">
-    
+    <title>Arbol de dias de noviecitos</title>
+    <!-- Autoría y derechos -->
+    <meta name="author" content="Zero">
+    <meta name="copyright" content="Zero - Código libre no comercial">
+    <meta name="description" content="Árbol de Amor Animado: una sorpresa interactiva y romántica para dedicar a tu pareja o ser querido. Código libre para uso personal, educativo o de inspiración.">
+    <meta name="keywords" content="amor, sorpresa, romántico, dedicatoria, animación, árbol, corazones, pareja, aniversario, regalo digital">
+    <meta name="robots" content="arbol, follow">
+    <!-- Estilos -->
+    <link rel="stylesheet" href="css/arbol.css">
+    <link rel="stylesheet" href="css/style.mobile.css" media="only screen and (max-width: 600px)">
     <style>
-        /* --- ESTILOS CSS DEL ÁLBUM --- */
-        body {
-            background-color: #4a3f35;
-            background-image: url('https://www.transparenttextures.com/patterns/old-wall.png');
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .album-container {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .book {
-            width: 80vw;
-            max-width: 800px;
-            height: 70vh;
-            background-color: #fdf5e6;
-            border: 15px solid #6b5a4b;
-            border-radius: 10px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .book-cover {
-            cursor: pointer;
-            text-align: center;
-            color: #6b5a4b;
-        }
-
-        .book-cover h1 {
-            font-family: 'Parisienne', cursive;
-            font-size: 4rem;
-            margin: 0;
-        }
-
-        .book-cover p {
-            font-style: italic;
-            font-size: 1.2rem;
-        }
-
-        .book-page {
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-            width: 100%;
-            height: 100%;
-        }
-        .book-page.visible {
-            opacity: 1;
-        }
-
-        .page-content {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-            height: calc(100% - 4rem);
-        }
-
-        .vintage-frame {
-            border: 10px solid transparent;
-            border-image: url('https://i.pinimg.com/originals/a8/33/21/a8332159495144b6c310f845a278d655.png') 50 stretch;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            margin-bottom: 1.5rem;
-        }
-
-        .vintage-frame img {
-            display: block;
-            width: auto;
-            max-width: 100%;
-            height: 30vh;
-            object-fit: contain;
-        }
-
-        #page-text {
-            font-family: 'Parisienne', cursive;
-            font-size: 1.8rem;
-            color: #5d4a3c;
-            text-align: center;
-            max-width: 90%;
-            line-height: 1.6;
-        }
-
-        .navigation-controls {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .navigation-controls button {
-            background-color: #6b5a4b;
-            color: #fdf5e6;
-            border: 2px solid #5d4a3c;
-            border-radius: 5px;
-            padding: 10px 25px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .navigation-controls button:hover {
-            background-color: #fdf5e6;
-            color: #6b5a4b;
-        }
-
-        .back-link-album {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            color: #fdf5e6;
-            text-decoration: none;
-            background-color: rgba(0,0,0,0.3);
-            padding: 10px 15px;
-            border-radius: 20px;
-        }
+      .tree-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        height: 400px;
+        z-index: 2;
+      }
+      .animated-heart {
+        transform-origin: center;
+        animation: beat 1s infinite;
+      }
+      @keyframes beat {
+        0%, 100% { transform: scale(1); }
+        20% { transform: scale(1.1); }
+        40% { transform: scale(0.95); }
+        60% { transform: scale(1.08); }
+        80% { transform: scale(1); }
+      }
     </style>
 </head>
 <body>
-
-    <div class="album-container">
-        <div class="book" id="book">
-            <div class="book-cover" id="book-cover">
-                <h1>Nuestra Historia</h1>
-                <p>Haz clic para abrir</p>
-            </div>
-
-            <div class="book-page" id="book-page">
-                <div class="page-content">
-                    <div class="vintage-frame">
-                        <img id="page-image" src="" alt="Recuerdo">
-                    </div>
-                    <p id="page-text"></p>
-                </div>
-            </div>
-        </div>
-
-        <div class="navigation-controls">
-            <button id="prev-btn">Anterior</button>
-            <button id="next-btn">Siguiente</button>
-        </div>
+    <div id="floating-objects"></div>
+    <div class="dedication-text" id="dedication-text">
+      <div class="signature" id="signature"></div>
     </div>
-    
-    <a href="indice.html" class="back-link-album">Volver al Menú</a>
-
-    <script>
-        // --- JAVASCRIPT DEL ÁLBUM ---
-        document.addEventListener('DOMContentLoaded', () => {
-            const albumPages = [
-                {
-                    image: "img/Concierto.jpg",
-                    text: "Todo comenzó el 21-11-2024 en el concierto de nescui y en un viaje de 8 desconocidos hacia Toluca termino sucediendo la mejor casualidad de mi vida, conocerte a ti."
-                },
-                {
-                    image: "img/esc.jpg",
-                    text: "Despues de eso un dia fui a tu escuela y a partir de ese dia comenzaron nuestras platicas diarias ademas de mi atraccion por ti."
-                },
-                {
-                    image: "img/fiesta1.jpg",
-                    text: "En nuestro grupo del viaje a Toluca mandaron que iba a haber una fiesta el 21 de diciembre, fuimos y paso lo que 1 mes antes nunca hubiera imaginado, nos dimos nuestro primer beso, un tanto forzado pero en el fondo muy deseado, te quedaste a dormir en mi casa y a partir de lo que paso ese dia nuestra relacion tomo otro rumbo."
-                },
-                {
-                    image: "img/pao.jpg",
-                    text: "A la semana fue la fiesta de Pao donde confirmamos que habia algo mas que una simple amistad entre nosotros."
-                },
-                {
-                    image: "img/tor.jpg",
-                    text: "El 31 de Diciembre quedamos de vernos en Toreo un ratito antes de la comida de fin de año, en el momento donde estuvimos platicando abrazandonos y dandonos besitos fue cuando descubri que no queria que solamente fuera algo pasjero."
-                },
-                {
-                    image: "img/chapu.jpg",
-                    text: "Dias despues tuvimos nuestra primera cita, fuimos a Chapultepec twins y segui confirmando lo mucho que me estabas empezando a gustar."
-                },
-                {
-                    image: "img/bic.jpg",
-                    text: "Fuimos al parque y te di las primeras flores, era curioso como sin darnos cuenta y mientras seguíamos conociéndonos, los 'te quiero', los apodos y los detalles bonitos se repetian cada vez mas."
-                },
-                {
-                    image: "img/ros.jpg",
-                    text: "Quedamos de salir con los chocoamigos pero al fnal nadie pudo y terminamos viendonos solo nosotros, te di mas florecitas y ese dia nos contamos lo que sentiamos, lo que queriamos y lo que sentiamos que era mejor para nosotros, los dos estabamos de acuerdo en que queriamos intentarlo pero era mejor seguirnos conociendo al menos un mes mas y esperar al 21 de febrero para que el 21 fuera nuestro dia, creo que fue el primer dia que te quedaste a dormir en mi casa despues de la fiesta "
-                },
-                {
-                    image: "img/nov.jpg",
-                    text: "Llego el 21 de febrero, quedamos de vernos y te escribi 'Puedo ser tu novio?' con letras de madera  y por fin podiamos decir que eramos noviecitos despues de tanto tiempo y tantas cosas que habiamos pasado juntos, me espere a ese momento para decirte el primer 'te amo' y ha sido mi mas favorito."
-                }
-            ];
-
-            const book = document.getElementById('book');
-            const cover = document.getElementById('book-cover');
-            const page = document.getElementById('book-page');
-            const pageImage = document.getElementById('page-image');
-            const pageText = document.getElementById('page-text');
-            const prevBtn = document.getElementById('prev-btn');
-            const nextBtn = document.getElementById('next-btn');
-
-            let currentPage = -1;
-
-            function showPage(index) {
-                if (index >= 0 && index < albumPages.length) {
-                    page.classList.remove('visible');
-                    setTimeout(() => {
-                        const pageData = albumPages[index];
-                        pageImage.src = pageData.image;
-                        pageText.textContent = pageData.text;
-                        page.classList.add('visible');
-                    }, 300);
-                }
-                updateButtons();
-            }
-
-            function updateButtons() {
-                if (currentPage === -1) {
-                    prevBtn.style.display = 'none';
-                    nextBtn.style.display = 'none';
-                } else {
-                    prevBtn.style.display = currentPage > 0 ? 'block' : 'none';
-                    nextBtn.style.display = currentPage < albumPages.length - 1 ? 'block' : 'none';
-                }
-            }
-
-            cover.addEventListener('click', () => {
-                cover.style.display = 'none';
-                currentPage = 0;
-                showPage(currentPage);
-            });
-
-            nextBtn.addEventListener('click', () => {
-                if (currentPage < albumPages.length - 1) {
-                    currentPage++;
-                    showPage(currentPage);
-                }
-            });
-
-            prevBtn.addEventListener('click', () => {
-                if (currentPage > 0) {
-                    currentPage--;
-                    showPage(currentPage);
-                }
-            });
-
-            updateButtons();
-        });
-    </script>
+    <div class="countdown" id="countdown"></div>
+    <div class="tree-container" id="tree-container"></div>
+    <audio src="musica/arbol.mp3" id="bg-music" preload="auto"></audio>
+    <script src="js/arbol.js"></script>
 </body>
 </html>

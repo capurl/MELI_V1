@@ -44,6 +44,7 @@ btnAgregar.addEventListener('click', async () => {
 
 // 2. ESCUCHAR CAMBIOS Y MOSTRAR LISTA
 onSnapshot(collection(db, "citas"), (snapshot) => {
+    // Limpiar las listas antes de volver a pintarlas
     listaPendientes.innerHTML = '';
     listaCompletadas.innerHTML = '';
 
@@ -51,14 +52,16 @@ onSnapshot(collection(db, "citas"), (snapshot) => {
         const cita = documento.data();
         const id = documento.id;
 
+        // Crear el elemento de la lista (<li>)
         const li = document.createElement('li');
         
-        // El checkbox funciona igual
+        // Crear el checkbox
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.id = id;
         checkbox.checked = cita.completada;
         
+        // Cuando alguien marca/desmarca, actualizar Firebase
         checkbox.addEventListener('change', async () => {
             const citaRef = doc(db, "citas", id);
             await updateDoc(citaRef, {
@@ -66,22 +69,30 @@ onSnapshot(collection(db, "citas"), (snapshot) => {
             });
         });
 
-        // El texto de la cita ahora es clickeable
+        // Crear la etiqueta (texto de la cita)
         const label = document.createElement('label');
         label.htmlFor = id;
         label.textContent = cita.texto;
-        label.style.cursor = "pointer"; // Cambia el cursor a una manita
 
-        // NUEVO: Evento para abrir el modal al hacer clic en el texto
-        label.addEventListener('click', (e) => {
-            e.preventDefault(); // Evita que se marque/desmarque el checkbox por accidente
-            modalTitulo.value = cita.texto; // Pasa el nombre de la cita a la tarjeta
-            modalRecuerdo.style.display = 'flex'; // Muestra la tarjeta flotante
+        // NUEVO: Crear un botoncito de cámara para abrir la tarjeta
+        const btnRecuerdo = document.createElement('span');
+        btnRecuerdo.innerHTML = ' 📸'; // Icono de cámara
+        btnRecuerdo.style.cursor = 'pointer';
+        btnRecuerdo.style.marginLeft = '12px'; // Un poco de espacio separado del texto
+        btnRecuerdo.title = 'Abrir recuerdo';
+
+        // Evento para abrir el modal al tocar la cámara
+        btnRecuerdo.addEventListener('click', () => {
+            modalTitulo.value = cita.texto; 
+            modalRecuerdo.style.display = 'flex'; 
         });
 
+        // Armar el <li> (Checkbox + Texto + Camarita)
         li.appendChild(checkbox);
         li.appendChild(label);
+        li.appendChild(btnRecuerdo);
 
+        // Acomodar en la lista correspondiente
         if (cita.completada) {
             listaCompletadas.appendChild(li);
         } else {

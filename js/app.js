@@ -12,7 +12,7 @@ const firebaseConfig = {
 };
 
 // NUEVO: Llave de ImgBB
-const IMGBB_API_KEY = "PE5f85984ff1ab6b660277979470dac4fe"; 
+const IMGBB_API_KEY = PE5f85984ff1ab6b660277979470dac4fe; 
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);

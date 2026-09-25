@@ -1,5 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+// Agregamos 'getDoc' para poder leer los recuerdos guardados
+import { getFirestore, collection, addDoc, onSnapshot, updateDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
 // Tu configuración de Firebase
 const firebaseConfig = {
@@ -14,9 +15,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// NUEVO: Variables para recordar de quién es el turno y qué cita editamos
+// Variables de estado
 let idCitaActual = null;
 let usuarioActual = null;
+let calificacionActual = 0;
 
 // Referencias principales
 const inputCita = document.getElementById('nuevaCitaInput');
@@ -24,13 +26,38 @@ const btnAgregar = document.getElementById('btnAgregar');
 const listaPendientes = document.getElementById('listaPendientes');
 const listaCompletadas = document.getElementById('listaCompletadas');
 
-// Referencias del Modal
+// Referencias del Modal (Tarjeta)
 const modalRecuerdo = document.getElementById('modalRecuerdo');
 const btnCerrarModal = document.getElementById('btnCerrarModal');
 const modalTitulo = document.getElementById('modalTitulo');
-const modalHeader = document.querySelector('.title-section h1'); // Para cambiar el título
+const modalHeader = document.querySelector('.title-section h1');
 
-// 1. AGREGAR NUEVA CITA
+// Referencias de los campos del formulario
+const modalFecha = document.getElementById('modalFecha');
+const modalLugar = document.getElementById('modalLugar');
+const modalPalabra = document.getElementById('modalPalabra');
+const modalMejor = document.getElementById('modalMejor');
+const btnGuardarRecuerdo = document.getElementById('btnGuardarRecuerdo');
+const corazones = document.querySelectorAll('#modalEstrellas i');
+
+// 1. LÓGICA DE LOS CORAZONES (Calificación)
+corazones.forEach(corazon => {
+    corazon.addEventListener('click', (e) => {
+        calificacionActual = parseInt(e.target.getAttribute('data-valor'));
+        // Pintar o despintar corazones según el valor
+        corazones.forEach(c => {
+            if (parseInt(c.getAttribute('data-valor')) <= calificacionActual) {
+                c.classList.remove('far');
+                c.classList.add('fas'); // Corazón relleno
+            } else {
+                c.classList.remove('fas');
+                c.classList.add('far'); // Corazón vacío
+            }
+        });
+    });
+});
+
+// 2. AGREGAR NUEVA CITA
 btnAgregar.addEventListener('click', async () => {
     const textoCita = inputCita.value.trim();
     if (textoCita === "") return;
@@ -43,11 +70,11 @@ btnAgregar.addEventListener('click', async () => {
         });
         inputCita.value = ""; 
     } catch (e) {
-        console.error("Error al agregar documento: ", e);
+        console.error("Error al agregar: ", e);
     }
 });
 
-// 2. ESCUCHAR CAMBIOS Y MOSTRAR LISTA
+// 3. ESCUCHAR CAMBIOS Y MOSTRAR LISTA
 onSnapshot(collection(db, "citas"), (snapshot) => {
     listaPendientes.innerHTML = '';
     listaCompletadas.innerHTML = '';
@@ -57,18 +84,13 @@ onSnapshot(collection(db, "citas"), (snapshot) => {
         const id = documento.id;
 
         const li = document.createElement('li');
-        
-        // Crear el checkbox
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.id = id;
         checkbox.checked = cita.completada;
         
         checkbox.addEventListener('change', async () => {
-            const citaRef = doc(db, "citas", id);
-            await updateDoc(citaRef, {
-                completada: checkbox.checked
-            });
+            await updateDoc(doc(db, "citas", id), { completada: checkbox.checked });
         });
 
         const label = document.createElement('label');
@@ -78,38 +100,19 @@ onSnapshot(collection(db, "citas"), (snapshot) => {
         li.appendChild(checkbox);
         li.appendChild(label);
 
-        // NUEVO: Si la cita está completada, creamos dos botones
         if (cita.completada) {
             const contenedorBotones = document.createElement('span');
             contenedorBotones.style.marginLeft = '15px';
 
-            // Botón Tuyo
             const btnMiRecuerdo = document.createElement('span');
             btnMiRecuerdo.innerHTML = '🐢 Fer';
-            btnMiRecuerdo.style.cursor = 'pointer';
-            btnMiRecuerdo.style.fontSize = '0.80rem';
-            btnMiRecuerdo.style.marginRight = '8px';
-            btnMiRecuerdo.style.backgroundColor = '#f0f0f0';
-            btnMiRecuerdo.style.padding = '4px 8px';
-            btnMiRecuerdo.style.borderRadius = '12px';
+            btnMiRecuerdo.style.cssText = 'cursor:pointer; font-size:0.80rem; margin-right:8px; background:#f0f0f0; padding:4px 8px; border-radius:12px;';
+            btnMiRecuerdo.addEventListener('click', () => abrirTarjeta(id, cita.texto, 'novio'));
 
-            btnMiRecuerdo.addEventListener('click', () => {
-                abrirTarjeta(id, cita.texto, 'novio');
-            });
-
-            // Botón de Meli
             const btnRecuerdoMeli = document.createElement('span');
             btnRecuerdoMeli.innerHTML = '🐘 Meli';
-            btnRecuerdoMeli.style.cursor = 'pointer';
-            btnRecuerdoMeli.style.fontSize = '0.80rem';
-            btnRecuerdoMeli.style.backgroundColor = '#ffb6c1';
-            btnRecuerdoMeli.style.color = 'white';
-            btnRecuerdoMeli.style.padding = '4px 8px';
-            btnRecuerdoMeli.style.borderRadius = '12px';
-
-            btnRecuerdoMeli.addEventListener('click', () => {
-                abrirTarjeta(id, cita.texto, 'meli');
-            });
+            btnRecuerdoMeli.style.cssText = 'cursor:pointer; font-size:0.80rem; background:#ffb6c1; color:white; padding:4px 8px; border-radius:12px;';
+            btnRecuerdoMeli.addEventListener('click', () => abrirTarjeta(id, cita.texto, 'meli'));
 
             contenedorBotones.appendChild(btnMiRecuerdo);
             contenedorBotones.appendChild(btnRecuerdoMeli);
@@ -117,36 +120,81 @@ onSnapshot(collection(db, "citas"), (snapshot) => {
             
             listaCompletadas.appendChild(li);
         } else {
-            // Si no está completada, va a pendientes normal, sin botones
             listaPendientes.appendChild(li);
         }
     });
 });
 
-// NUEVO: Función para preparar y abrir la tarjeta
-function abrirTarjeta(id, texto, usuario) {
-    idCitaActual = id; // Guardamos qué cita estamos tocando
-    usuarioActual = usuario; // Guardamos quién la está abriendo
-
-    modalTitulo.value = texto; // Ponemos el nombre de la cita
+// 4. ABRIR TARJETA Y CARGAR DATOS SI EXISTEN
+async function abrirTarjeta(id, texto, usuario) {
+    idCitaActual = id; 
+    usuarioActual = usuario; 
+    modalTitulo.value = texto; 
     
-    // Cambiamos el título visualmente
-    if (usuario === 'novio') {
-        modalHeader.innerHTML = 'Recuerdo de Fer 🐢';
-    } else {
-        modalHeader.innerHTML = 'Recuerdo de Meli 🐘';
-    }
+    modalHeader.innerHTML = usuario === 'novio' ? '🐢 Fer' : '🐘 Meli';
 
+    // Limpiar los campos por defecto al abrir
+    modalFecha.value = '';
+    modalLugar.value = '';
+    modalPalabra.value = '';
+    modalMejor.value = '';
+    calificacionActual = 0;
+    corazones.forEach(c => { c.classList.remove('fas'); c.classList.add('far'); });
+
+    // Buscar en Firebase si ya habían escrito algo antes
+    const docSnap = await getDoc(doc(db, "citas", id));
+    if (docSnap.exists()) {
+        const data = docSnap.data();
+        const recuerdo = usuario === 'novio' ? data.recuerdo_novio : data.recuerdo_meli;
+        
+        if (recuerdo) {
+            modalFecha.value = recuerdo.fecha || '';
+            modalLugar.value = recuerdo.lugar || '';
+            modalPalabra.value = recuerdo.palabra || '';
+            modalMejor.value = recuerdo.mejor || '';
+            calificacionActual = recuerdo.calificacion || 0;
+            
+            // Pintar los corazones guardados
+            corazones.forEach(c => {
+                if (parseInt(c.getAttribute('data-valor')) <= calificacionActual) {
+                    c.classList.remove('far');
+                    c.classList.add('fas');
+                }
+            });
+        }
+    }
     modalRecuerdo.style.display = 'flex';
 }
 
-// 3. CERRAR EL MODAL
-btnCerrarModal.addEventListener('click', () => {
-    modalRecuerdo.style.display = 'none';
-});
+// 5. GUARDAR EL RECUERDO EN FIREBASE
+btnGuardarRecuerdo.addEventListener('click', async () => {
+    if (!idCitaActual) return;
+    
+    // Empaquetamos todo lo que escribieron
+    const datosRecuerdo = {
+        fecha: modalFecha.value,
+        lugar: modalLugar.value,
+        palabra: modalPalabra.value,
+        mejor: modalMejor.value,
+        calificacion: calificacionActual
+    };
 
-window.addEventListener('click', (e) => {
-    if (e.target === modalRecuerdo) {
+    try {
+        const citaRef = doc(db, "citas", idCitaActual);
+        // Guardamos en un cajón u otro dependiendo de quién abrió la tarjeta
+        if (usuarioActual === 'novio') {
+            await updateDoc(citaRef, { recuerdo_novio: datosRecuerdo });
+        } else {
+            await updateDoc(citaRef, { recuerdo_meli: datosRecuerdo });
+        }
+        
+        alert("¡Recuerdo guardado! 💖");
         modalRecuerdo.style.display = 'none';
+    } catch (error) {
+        console.error("Error al guardar:", error);
     }
 });
+
+// 6. CERRAR EL MODAL
+btnCerrarModal.addEventListener('click', () => { modalRecuerdo.style.display = 'none'; });
+window.addEventListener('click', (e) => { if (e.target === modalRecuerdo) modalRecuerdo.style.display = 'none'; });

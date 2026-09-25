@@ -108,12 +108,12 @@ onSnapshot(collection(db, "citas"), (snapshot) => {
             const contenedorBotones = document.createElement('span'); contenedorBotones.style.marginLeft = '15px';
             
             const btnMiRecuerdo = document.createElement('span');
-            btnMiRecuerdo.innerHTML = '🐢 Mi versión';
+            btnMiRecuerdo.innerHTML = '🐢 Fer';
             btnMiRecuerdo.style.cssText = 'cursor:pointer; font-size:0.80rem; margin-right:8px; background:#f0f0f0; padding:4px 8px; border-radius:12px;';
             btnMiRecuerdo.addEventListener('click', () => abrirTarjeta(id, cita.texto, 'novio'));
 
             const btnRecuerdoMeli = document.createElement('span');
-            btnRecuerdoMeli.innerHTML = '🐘 Versión Meli';
+            btnRecuerdoMeli.innerHTML = '🐘 Meli';
             btnRecuerdoMeli.style.cssText = 'cursor:pointer; font-size:0.80rem; background:#ffb6c1; color:white; padding:4px 8px; border-radius:12px;';
             btnRecuerdoMeli.addEventListener('click', () => abrirTarjeta(id, cita.texto, 'meli'));
 
@@ -128,7 +128,7 @@ onSnapshot(collection(db, "citas"), (snapshot) => {
 // 5. ABRIR TARJETA
 async function abrirTarjeta(id, texto, usuario) {
     idCitaActual = id; usuarioActual = usuario; modalTitulo.value = texto; 
-    modalHeader.innerHTML = usuario === 'novio' ? 'Mi Recuerdo 🐢' : 'Recuerdo de Meli 🐘';
+    modalHeader.innerHTML = usuario === 'novio' ? 'Fer 🐢' : 'Meli 🐘';
 
     modalFecha.value = ''; modalLugar.value = ''; modalPalabra.value = ''; modalMejor.value = '';
     calificacionActual = 0; archivoSeleccionado = null; fotoUrlActual = "";
@@ -204,7 +204,7 @@ btnGuardarRecuerdo.addEventListener('click', async () => {
         if (usuarioActual === 'novio') { await updateDoc(citaRef, { recuerdo_novio: datosRecuerdo }); } 
         else { await updateDoc(citaRef, { recuerdo_meli: datosRecuerdo }); }
         
-        alert("¡Recuerdo guardado con éxito! 💖");
+        alert("¡Recuerdo guardado! 💖");
         modalRecuerdo.style.display = 'none';
     } catch (error) { console.error("Error al guardar:", error); }
 });

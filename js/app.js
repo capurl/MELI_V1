@@ -132,9 +132,9 @@ function abrirTarjeta(id, texto, usuario) {
     
     // Cambiamos el título visualmente
     if (usuario === 'novio') {
-        modalHeader.innerHTML = 'Mi Recuerdo 👦🏻';
+        modalHeader.innerHTML = 'Recuerdo de Fer 🐢';
     } else {
-        modalHeader.innerHTML = 'Recuerdo de Meli 👩🏻';
+        modalHeader.innerHTML = 'Recuerdo de Meli 🐘';
     }
 
     modalRecuerdo.style.display = 'flex';

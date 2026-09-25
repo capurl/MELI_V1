@@ -177,10 +177,20 @@ function showCountdown() {
   let startDate = startParam ? new Date(startParam + 'T00:00:00') : new Date('2025-02-21T00:17:30'); 
   let eventDate = eventParam ? new Date(eventParam + 'T00:00:00') : new Date('2026-10-21T00:17:30');
 
-  function update() {
+function update() {
     const now = new Date();
+    
+    // 1. Configuramos el objetivo para el día 21 del mes ACTUAL a la medianoche (o a la hora que prefieras)
+    let eventDate = new Date(now.getFullYear(), now.getMonth(), 21, 0, 0, 0);
+
+    // 2. Si el día de hoy ya pasó el 21 de este mes, saltamos al mes SIGUIENTE
+    if (now > eventDate) {
+        eventDate.setMonth(now.getMonth() + 1);
+    }
+
     let diff = now - startDate;
     let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    
     let eventDiff = eventDate - now;
     let eventDays = Math.max(0, Math.floor(eventDiff / (1000 * 60 * 60 * 24)));
     let eventHours = Math.max(0, Math.floor((eventDiff / (1000 * 60 * 60)) % 24));

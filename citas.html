@@ -38,8 +38,75 @@
             <i class="fas fa-arrow-left fa-stack-1x"></i>
         </span>
     </a>
+<!-- =========================================
+         VENTANA EMERGENTE (MODAL DE RECUERDO)
+         ========================================= -->
+    <div id="modalRecuerdo" class="modal-overlay">
+        <div class="scrapbook-card">
+            <!-- Botón para cerrar -->
+            <span class="close-modal" id="btnCerrarModal">&times;</span>
 
-    <!-- Aquí conectamos tu nuevo archivo de JavaScript con Firebase -->
-    <script type="module" src="js/app.js"></script>
+            <div class="header-row">
+                <div class="title-section">
+                    <h1>Cita # <span id="modalNumCita" style="font-size: 1.5rem; border-bottom: 2px solid #ff8fa3; padding: 0 10px;">1</span></h1>
+                    <input type="text" id="modalTitulo" class="title-input" placeholder="Nombre de la cita..." readonly>
+                </div>
+                
+                <div class="rating-section">
+                    <p>Calificación de esta cita</p>
+                    <div class="hearts" id="modalEstrellas">
+                        <i class="far fa-heart" data-valor="1"></i>
+                        <i class="far fa-heart" data-valor="2"></i>
+                        <i class="far fa-heart" data-valor="3"></i>
+                        <i class="far fa-heart" data-valor="4"></i>
+                        <i class="far fa-heart" data-valor="5"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <!-- Columna Izquierda -->
+                <div class="col-izq">
+                    <div class="polaroid" id="btnSubirFoto">
+                        <div class="polaroid-photo">
+                            <i class="fas fa-camera"></i>
+                            <!-- Aquí irá la imagen real después -->
+                        </div>
+                        <p>La mejor foto del día</p>
+                    </div>
+                    
+                    <div>
+                        <label style="font-size: 0.85rem; color: #666;">Fecha:</label>
+                        <input type="date" id="modalFecha" class="input-line">
+                    </div>
+                    
+                    <div>
+                        <label style="font-size: 0.85rem; color: #666;">Lugar:</label>
+                        <input type="text" id="modalLugar" class="input-line" placeholder="¿Dónde fue?">
+                    </div>
+                </div>
+                
+                <!-- Columna Derecha -->
+                <div class="col-der">
+                    <div class="box-decorated" style="border-radius: 5px;">
+                        <label style="font-size: 0.9rem;">Describe esta cita con una sola palabra</label>
+                        <input type="text" id="modalPalabra" class="input-line" placeholder="..." style="border-bottom: none; background: #fff; padding-left: 5px; border-radius: 3px;">
+                    </div>
+                    
+                    <div class="box-decorated" style="flex-grow: 1;">
+                        <label>Lo mejor de la cita:</label>
+                        <textarea id="modalMejor" placeholder="Escribe aquí los mejores momentos..."></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn-guardar" id="btnGuardarRecuerdo">Guardar Recuerdo 📸</button>
+        </div>
+    </div>
+    <!-- Fin del Modal -->
+
+    <!-- script bd -->
+    <script type="module" src="jsapp.js"></script>
 </body>
 </html>
+ 

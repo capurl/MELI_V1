@@ -1,49 +1,49 @@
-// Importar las funciones de Firebase (versión 10) directamente desde la web
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getFirestore, collection, addDoc, onSnapshot, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
-// Tu configuración específica de Firebase
+//  configuración de Firebase 
 const firebaseConfig = {
   apiKey: "AIzaSyCMJWSJ78t03oImu0NK_xl-W0ju5NDzBvI",
   authDomain: "citas-meli.firebaseapp.com",
   projectId: "citas-meli",
   storageBucket: "citas-meli.firebasestorage.app",
   messagingSenderId: "1035533326169",
-  appId: "1:1035533326169:web:85908941a6062bd8f25e48",
-  measurementId: "G-W99519LNNM"
+  appId: "1:1035533326169:web:85908941a6062bd8f25e48"
 };
 
-// Inicializar Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Referencias a los elementos de tu página HTML
+// Referencias principales
 const inputCita = document.getElementById('nuevaCitaInput');
 const btnAgregar = document.getElementById('btnAgregar');
 const listaPendientes = document.getElementById('listaPendientes');
 const listaCompletadas = document.getElementById('listaCompletadas');
 
-// 1. FUNCIÓN PARA AGREGAR UNA NUEVA CITA A FIREBASE
+// Referencias del Modal
+const modalRecuerdo = document.getElementById('modalRecuerdo');
+const btnCerrarModal = document.getElementById('btnCerrarModal');
+const modalTitulo = document.getElementById('modalTitulo');
+
+// 1. AGREGAR NUEVA CITA
 btnAgregar.addEventListener('click', async () => {
     const textoCita = inputCita.value.trim();
-    if (textoCita === "") return; // No agregar si está vacío
+    if (textoCita === "") return;
 
     try {
         await addDoc(collection(db, "citas"), {
             texto: textoCita,
-            completada: false, // Inicia como no completada
+            completada: false,
             fecha: new Date()
         });
-        inputCita.value = ""; // Limpiar la caja de texto
+        inputCita.value = ""; 
     } catch (e) {
         console.error("Error al agregar documento: ", e);
-        alert("Hubo un error al guardar. Asegúrate de tener permisos (Modo de prueba).");
     }
 });
 
-// 2. FUNCIÓN PARA ESCUCHAR CAMBIOS EN TIEMPO REAL
+// 2. ESCUCHAR CAMBIOS Y MOSTRAR LISTA
 onSnapshot(collection(db, "citas"), (snapshot) => {
-    // Limpiar las listas antes de volver a pintarlas
     listaPendientes.innerHTML = '';
     listaCompletadas.innerHTML = '';
 
@@ -51,16 +51,14 @@ onSnapshot(collection(db, "citas"), (snapshot) => {
         const cita = documento.data();
         const id = documento.id;
 
-        // Crear el elemento de la lista (<li>)
         const li = document.createElement('li');
         
-        // Crear el checkbox
+        // El checkbox funciona igual
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.id = id;
         checkbox.checked = cita.completada;
         
-        // Cuando alguien marca/desmarca, actualizar Firebase
         checkbox.addEventListener('change', async () => {
             const citaRef = doc(db, "citas", id);
             await updateDoc(citaRef, {
@@ -68,20 +66,39 @@ onSnapshot(collection(db, "citas"), (snapshot) => {
             });
         });
 
-        // Crear la etiqueta (texto de la cita)
+        // El texto de la cita ahora es clickeable
         const label = document.createElement('label');
         label.htmlFor = id;
         label.textContent = cita.texto;
+        label.style.cursor = "pointer"; // Cambia el cursor a una manita
 
-        // Armar el <li>
+        // NUEVO: Evento para abrir el modal al hacer clic en el texto
+        label.addEventListener('click', (e) => {
+            e.preventDefault(); // Evita que se marque/desmarque el checkbox por accidente
+            modalTitulo.value = cita.texto; // Pasa el nombre de la cita a la tarjeta
+            modalRecuerdo.style.display = 'flex'; // Muestra la tarjeta flotante
+        });
+
         li.appendChild(checkbox);
         li.appendChild(label);
 
-        // Acomodar en la lista correspondiente
         if (cita.completada) {
             listaCompletadas.appendChild(li);
         } else {
             listaPendientes.appendChild(li);
         }
     });
+});
+
+// 3. CERRAR EL MODAL
+// Al hacer clic en la "X"
+btnCerrarModal.addEventListener('click', () => {
+    modalRecuerdo.style.display = 'none';
+});
+
+// Al hacer clic afuera de la tarjeta blanca (en el fondo oscuro)
+window.addEventListener('click', (e) => {
+    if (e.target === modalRecuerdo) {
+        modalRecuerdo.style.display = 'none';
+    }
 });

@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getFirestore, collection, addDoc, onSnapshot, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
-//  configuración de Firebase 
+// Tu configuración de Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyCMJWSJ78t03oImu0NK_xl-W0ju5NDzBvI",
   authDomain: "citas-meli.firebaseapp.com",
@@ -14,6 +14,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// NUEVO: Variables para recordar de quién es el turno y qué cita editamos
+let idCitaActual = null;
+let usuarioActual = null;
+
 // Referencias principales
 const inputCita = document.getElementById('nuevaCitaInput');
 const btnAgregar = document.getElementById('btnAgregar');
@@ -24,6 +28,7 @@ const listaCompletadas = document.getElementById('listaCompletadas');
 const modalRecuerdo = document.getElementById('modalRecuerdo');
 const btnCerrarModal = document.getElementById('btnCerrarModal');
 const modalTitulo = document.getElementById('modalTitulo');
+const modalHeader = document.querySelector('.title-section h1'); // Para cambiar el título
 
 // 1. AGREGAR NUEVA CITA
 btnAgregar.addEventListener('click', async () => {
@@ -44,7 +49,6 @@ btnAgregar.addEventListener('click', async () => {
 
 // 2. ESCUCHAR CAMBIOS Y MOSTRAR LISTA
 onSnapshot(collection(db, "citas"), (snapshot) => {
-    // Limpiar las listas antes de volver a pintarlas
     listaPendientes.innerHTML = '';
     listaCompletadas.innerHTML = '';
 
@@ -52,7 +56,6 @@ onSnapshot(collection(db, "citas"), (snapshot) => {
         const cita = documento.data();
         const id = documento.id;
 
-        // Crear el elemento de la lista (<li>)
         const li = document.createElement('li');
         
         // Crear el checkbox
@@ -61,7 +64,6 @@ onSnapshot(collection(db, "citas"), (snapshot) => {
         checkbox.id = id;
         checkbox.checked = cita.completada;
         
-        // Cuando alguien marca/desmarca, actualizar Firebase
         checkbox.addEventListener('change', async () => {
             const citaRef = doc(db, "citas", id);
             await updateDoc(citaRef, {
@@ -69,45 +71,80 @@ onSnapshot(collection(db, "citas"), (snapshot) => {
             });
         });
 
-        // Crear la etiqueta (texto de la cita)
         const label = document.createElement('label');
         label.htmlFor = id;
         label.textContent = cita.texto;
 
-        // NUEVO: Crear un botoncito de cámara para abrir la tarjeta
-        const btnRecuerdo = document.createElement('span');
-        btnRecuerdo.innerHTML = ' 📸'; // Icono de cámara
-        btnRecuerdo.style.cursor = 'pointer';
-        btnRecuerdo.style.marginLeft = '12px'; // Un poco de espacio separado del texto
-        btnRecuerdo.title = 'Abrir recuerdo';
-
-        // Evento para abrir el modal al tocar la cámara
-        btnRecuerdo.addEventListener('click', () => {
-            modalTitulo.value = cita.texto; 
-            modalRecuerdo.style.display = 'flex'; 
-        });
-
-        // Armar el <li> (Checkbox + Texto + Camarita)
         li.appendChild(checkbox);
         li.appendChild(label);
-        li.appendChild(btnRecuerdo);
 
-        // Acomodar en la lista correspondiente
+        // NUEVO: Si la cita está completada, creamos dos botones
         if (cita.completada) {
+            const contenedorBotones = document.createElement('span');
+            contenedorBotones.style.marginLeft = '15px';
+
+            // Botón Tuyo
+            const btnMiRecuerdo = document.createElement('span');
+            btnMiRecuerdo.innerHTML = '🐢 Fer';
+            btnMiRecuerdo.style.cursor = 'pointer';
+            btnMiRecuerdo.style.fontSize = '0.80rem';
+            btnMiRecuerdo.style.marginRight = '8px';
+            btnMiRecuerdo.style.backgroundColor = '#f0f0f0';
+            btnMiRecuerdo.style.padding = '4px 8px';
+            btnMiRecuerdo.style.borderRadius = '12px';
+
+            btnMiRecuerdo.addEventListener('click', () => {
+                abrirTarjeta(id, cita.texto, 'novio');
+            });
+
+            // Botón de Meli
+            const btnRecuerdoMeli = document.createElement('span');
+            btnRecuerdoMeli.innerHTML = '🐘 Meli';
+            btnRecuerdoMeli.style.cursor = 'pointer';
+            btnRecuerdoMeli.style.fontSize = '0.80rem';
+            btnRecuerdoMeli.style.backgroundColor = '#ffb6c1';
+            btnRecuerdoMeli.style.color = 'white';
+            btnRecuerdoMeli.style.padding = '4px 8px';
+            btnRecuerdoMeli.style.borderRadius = '12px';
+
+            btnRecuerdoMeli.addEventListener('click', () => {
+                abrirTarjeta(id, cita.texto, 'meli');
+            });
+
+            contenedorBotones.appendChild(btnMiRecuerdo);
+            contenedorBotones.appendChild(btnRecuerdoMeli);
+            li.appendChild(contenedorBotones);
+            
             listaCompletadas.appendChild(li);
         } else {
+            // Si no está completada, va a pendientes normal, sin botones
             listaPendientes.appendChild(li);
         }
     });
 });
 
+// NUEVO: Función para preparar y abrir la tarjeta
+function abrirTarjeta(id, texto, usuario) {
+    idCitaActual = id; // Guardamos qué cita estamos tocando
+    usuarioActual = usuario; // Guardamos quién la está abriendo
+
+    modalTitulo.value = texto; // Ponemos el nombre de la cita
+    
+    // Cambiamos el título visualmente
+    if (usuario === 'novio') {
+        modalHeader.innerHTML = 'Mi Recuerdo 👦🏻';
+    } else {
+        modalHeader.innerHTML = 'Recuerdo de Meli 👩🏻';
+    }
+
+    modalRecuerdo.style.display = 'flex';
+}
+
 // 3. CERRAR EL MODAL
-// Al hacer clic en la "X"
 btnCerrarModal.addEventListener('click', () => {
     modalRecuerdo.style.display = 'none';
 });
 
-// Al hacer clic afuera de la tarjeta blanca (en el fondo oscuro)
 window.addEventListener('click', (e) => {
     if (e.target === modalRecuerdo) {
         modalRecuerdo.style.display = 'none';

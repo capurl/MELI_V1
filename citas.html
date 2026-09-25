@@ -11,29 +11,35 @@
 <body>
     <div class="checklist-container">
         <h2>Citas de Noviecitos</h2>
+        
+        <!-- Nueva sección para agregar citas -->
+        <div class="add-section" style="text-align: center; margin-bottom: 20px;">
+            <input type="text" id="nuevaCitaInput" placeholder="Escribe una nueva cita..." style="padding: 8px; width: 60%; border-radius: 5px; border: 1px solid #ccc; font-family: 'Poppins', sans-serif;">
+            <button id="btnAgregar" style="padding: 8px 15px; border-radius: 5px; background-color: #ffb6c1; border: none; cursor: pointer; font-family: 'Poppins', sans-serif; font-weight: 500;">Agregar</button>
+        </div>
+
         <div class="list-section">
             <h3>Sueños y citas juntos por cumplir ✨</h3>
-            <ul class="dream-list">
-                <li><input type="checkbox" id="c1"><label for="c1">Sesion de fotos de noviecitos</label></li>
-                <li><input type="checkbox" id="c2"><label for="c2">Ir a comer a sumo</label></li>
-                <li><input type="checkbox" id="c3"><label for="c3">Concierto de nsqk twins</label></li>
-                <li><input type="checkbox" id="c4"><label for="c4">Cuidar algo juntos</label></li>
-            </ul>
+            <!-- La lista ya está vacía, con su ID para que app.js la llene -->
+            <ul class="dream-list" id="listaPendientes"></ul>
         </div>
+
         <div class="list-section">
-            <h3>Citas completadas ❤️</h3>
-            <ul class="completed-list">
-                <li><input type="checkbox" id="c5" checked><label for="c5">Nuestro primer beso</label></li>
-                <li><input type="checkbox" id="c6" checked><label for="c6">Picnic</label></li>
-                <li><input type="checkbox" id="c7" checked><label for="c7">Ir al cine</label></li>
-                <li><input type="checkbox" id="c8" checked><label for="c8">Tener casita</label></li>
-                <li><input type="checkbox" id="c9" checked><label for="c9">Cocinar juntos</label></li>
-            </ul>
-<a href="indice.html" class="back-link" title="Volver al Índice">
-    <span class="fa-stack fa-2x">
-        <i class="fas fa-star fa-stack-2x"></i>
-        <i class="fas fa-arrow-left fa-stack-1x"></i>
-    </span>
-</a>
+            <h3>Citas completadas 💗</h3>
+            <!-- La lista ya está vacía, con su ID para que app.js la llene -->
+            <ul class="completed-list" id="listaCompletadas"></ul>
+        </div>
+    </div>
+
+    <!-- Tu botón de regreso al índice original -->
+    <a href="indice.html" class="back-link" title="Volver al Índice">
+        <span class="fa-stack fa-2x">
+            <i class="fas fa-star fa-stack-2x"></i>
+            <i class="fas fa-arrow-left fa-stack-1x"></i>
+        </span>
+    </a>
+
+    <!-- Aquí conectamos tu nuevo archivo de JavaScript con Firebase -->
+    <script type="module" src="app.js"></script>
 </body>
 </html>
